@@ -23,6 +23,18 @@
 /* This is for the standard set of CFE core app MsgID values */
 #include "cfe_msgids.h"
 
+#ifdef HAVE_TO_CON
+#include "to_con_msgids.h"
+#endif
+
+#ifdef HAVE_MXM_APP
+#include "mxm_app_msgids.h"
+#endif
+
+#ifdef HAVE_HUFF_APP
+#include "huff_app_msgids.h"
+#endif
+
 #ifdef HAVE_CI_LAB
 #include "ci_lab_msgids.h"
 #endif
@@ -67,13 +79,27 @@
 SCH_LAB_ScheduleTable_t SCH_LAB_ScheduleTable = {
     .TickRate = 100,
     .Config   = {
-        {CFE_SB_MSGID_WRAP_VALUE(CFE_ES_SEND_HK_MID), 100, 0}, /* Example of a 1hz packet */
-        {CFE_SB_MSGID_WRAP_VALUE(CFE_TBL_SEND_HK_MID), 50, 0},
+        {CFE_SB_MSGID_WRAP_VALUE(CFE_ES_SEND_HK_MID),  100, 0}, /* Example of a 1hz packet */
+        {CFE_SB_MSGID_WRAP_VALUE(CFE_TBL_SEND_HK_MID),  96, 0},
         {CFE_SB_MSGID_WRAP_VALUE(CFE_TIME_SEND_HK_MID), 98, 0},
-        {CFE_SB_MSGID_WRAP_VALUE(CFE_SB_SEND_HK_MID), 97, 0},
-        {CFE_SB_MSGID_WRAP_VALUE(CFE_EVS_SEND_HK_MID), 96, 0},
+        {CFE_SB_MSGID_WRAP_VALUE(CFE_SB_SEND_HK_MID),   97, 0},
+        {CFE_SB_MSGID_WRAP_VALUE(CFE_EVS_SEND_HK_MID),  96, 0},
 
 /* Example of including additional open source apps  */
+
+#ifdef HAVE_TO_CON
+        {CFE_SB_MSGID_WRAP_VALUE(TO_CON_SEND_HK_MID),  100, 0}, /* TO 1 Hz alive HK */
+#endif
+#ifdef HAVE_MXM_APP
+        {CFE_SB_MSGID_WRAP_VALUE(MXM_APP_SEND_HK_MID),  100, 0}, /* MXM 1 Hz HK     */
+        {CFE_SB_MSGID_WRAP_VALUE(MXM_APP_CMD_WORK_MID),  10, 0},  /* MXM 100 ms work */
+#endif
+#ifdef HAVE_HUFF_APP
+        {CFE_SB_MSGID_WRAP_VALUE(HUFF_APP_SEND_HK_MID),  100, 0}, /* HUFF 1 Hz HK     */
+        {CFE_SB_MSGID_WRAP_VALUE(HUFF_APP_CMD_WORK_MID),  10, 0},  /* HUFF 100 ms work */
+#endif
+
+
 #ifdef HAVE_CI_LAB
         {CFE_SB_MSGID_WRAP_VALUE(CI_LAB_SEND_HK_MID), 95, 0},
 #endif

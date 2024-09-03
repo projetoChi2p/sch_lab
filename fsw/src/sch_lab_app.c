@@ -61,6 +61,8 @@ typedef struct
 */
 SCH_LAB_GlobalData_t SCH_LAB_Global;
 
+extern SCH_LAB_ScheduleTable_t SCH_LAB_ScheduleTable;
+
 /*
 ** Local Function Prototypes
 */
@@ -204,7 +206,8 @@ CFE_Status_t SCH_LAB_AppInit(void)
         /*
         ** Loading Table
         */
-        Status = CFE_TBL_Load(SCH_LAB_Global.TblHandle, CFE_TBL_SRC_FILE, SCH_LAB_TBL_DEFAULT_FILE);
+        //Status = CFE_TBL_Load(SCH_LAB_Global.TblHandle, CFE_TBL_SRC_FILE, SCH_LAB_TBL_DEFAULT_FILE);
+        Status = CFE_TBL_Load(SCH_LAB_Global.TblHandle, CFE_TBL_SRC_ADDRESS, &SCH_LAB_ScheduleTable);
         if (Status != CFE_SUCCESS)
         {
             CFE_ES_WriteToSysLog("SCH_LAB: Error Loading Table ScheduleTable, RC = 0x%08lX\n", (unsigned long)Status);
@@ -294,7 +297,7 @@ CFE_Status_t SCH_LAB_AppInit(void)
     }
 
     /* Set timer period */
-    OsStatus = OS_TimerSet(SCH_LAB_Global.TimerId, 1000000, TimerPeriod);
+    OsStatus = OS_TimerSet(SCH_LAB_Global.TimerId, 200*1000 /* initial usecs, originally 1 second possibly to delay until sys settled */, TimerPeriod);
     if (OsStatus != OS_SUCCESS)
     {
         CFE_ES_WriteToSysLog("%s: OS_TimerSet failed:RC=%ld\n", __func__, (long)OsStatus);
